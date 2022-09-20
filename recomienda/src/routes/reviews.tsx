@@ -15,9 +15,6 @@ import Filters from '../components/Filters'
 
 import CardReview from '../components/CardReview'
 import Grid2 from '@mui/material/Unstable_Grid2'
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
-import { randomInt } from "crypto";
-
 
 interface Keyboard { 
     author: string,  
@@ -40,7 +37,7 @@ const data = [
         URL: 'testURL'
     },
     {
-        author: 'asd',
+        author: 'myge',
         date: 'asd',
         stars: 2,
         kb: 1,
@@ -49,7 +46,7 @@ const data = [
         URL: 'testURL'
     },
     {
-        author: 'asd',
+        author: 'naike',
         date: 'asd',
         stars: 2,
         kb: 1,
@@ -58,7 +55,7 @@ const data = [
         URL: 'testURL'
     },
     {
-        author: 'xx',
+        author: 'best keyboard',
         date: 'date',
         stars: 2,
         kb: 1,
@@ -151,10 +148,8 @@ function getDatos(){
 } 
 
 function Reviews(){
-    console.log('rendered');
-    
 
-    const [loading, setloading] = useState(false)
+    const [loading, setloading] = useState(true)
     
     const [keyboardsFetched, setKeyoardsFetched] = useState<Array<Keyboard>>([])
 
@@ -162,14 +157,16 @@ function Reviews(){
 
     useEffect(() => {
         getDatos()
-        .then((datos) => { setKeyboardsDisplay(datos)})
+        .then((datos) => { 
+            setloading(false)
+            setKeyboardsDisplay(datos)
+            setKeyoardsFetched(datos)})
     }, [])
 
 
-    const modifyKeyboardDisplayed = (keyboardsFetched: Keyboard[], setKeyboardsDisplay: React.Dispatch<React.SetStateAction<Keyboard[]>>) => { 
-        console.log('modified keyboard to display');
+    const modifyKeyboardDisplayed = (keyboardsToDisplay: Keyboard[]) => { 
+        setKeyboardsDisplay(keyboardsToDisplay)
     }
-
 
     return ( 
         loading ? 
@@ -183,23 +180,30 @@ function Reviews(){
         </Box> 
         :
             <>
-                <Filters handleInputChange={modifyKeyboardDisplayed(keyboardsFetched, setKeyboardsDisplay)} />
+                <Filters 
+                    handleInputChange={modifyKeyboardDisplayed} 
+                    keyboardsFetched = {keyboardsFetched}
+                />
 
-                <Grid2 container spacing={2}>
-                    {keyboardsDisplay.map((keyboardItem) => {
-                        return(
-                            <Grid2 xs={6} md={3} >
-                                <CardReview 
-                                    name ={keyboardItem.name} 
-                                    URL =       {keyboardItem.URL} 
-                                    star =      {keyboardItem.stars} 
-                                    author =    {keyboardItem.author} 
-                                    description={keyboardItem.description} />
-                            </Grid2>
-                        )
-                    })}
-                
-                </Grid2>
+                    <Grid2 
+                        container 
+                        spacing={2} 
+                        paddingLeft={10} 
+                        paddingTop={5}>
+                        {keyboardsDisplay.map((keyboardItem) => {
+                            return(
+                                <Grid2 xs={6} md={3}  >
+                                    <CardReview 
+                                        name ={keyboardItem.name} 
+                                        URL =       {keyboardItem.URL} 
+                                        star =      {keyboardItem.stars} 
+                                        author =    {keyboardItem.author} 
+                                        description={keyboardItem.description} />
+                                </Grid2>
+                            )
+                        })}
+                    
+                    </Grid2>
                 
             </>
     )

@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Reviews from './routes/reviews';
 import ResponsiveAppBar from './components/Navbar';
+import Customization from './routes/customization';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -20,7 +21,11 @@ const router = createBrowserRouter([
       { 
         path: "/reviews",
         element: <Reviews />
-      }  
+      },
+      {
+        path: "customization/:id",
+        element: <Customization />,
+      },
     ]
   }
   

@@ -4,6 +4,16 @@ import { styled } from '@mui/system';
 import { Typography } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2';
 
+interface Keyboard { 
+  author: string,  
+  date: string,  
+  stars: number,
+  description: string,
+  kb: number, 
+  name: string,
+  URL: string
+}
+
 const blue = {
   100: '#DAECFF',
   200: '#80BFFF',
@@ -27,7 +37,7 @@ const grey = {
 
 const StyledInputElement = styled('input')(
   ({ theme }) => `
-  width: 320px;
+  width: 250px;
   font-family: IBM Plex Sans, sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
@@ -64,16 +74,29 @@ const CustomInput = React.forwardRef(function CustomInput(
 
 interface FilterProps {
   handleInputChange: any
+  keyboardsFetched: Keyboard[]
 }
 
 export default function Filters(props: FilterProps) {
- 
+
+  // !Todo: 
+  // 1. Refactor this filter function to be more efficient. I know this is not the best way to do it. Maybe use a map?
+
+  const handleOnChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    //filter all elements in keyboardsFetched that contain the value of the input in any field
+    const filteredKeyboards = props.keyboardsFetched.filter((keyboard) => {
+      return Object.values(keyboard).some((value) => {
+        return value.toString().toLowerCase().includes(event.target.value.toLowerCase())
+      })
+    })
+    props.handleInputChange(filteredKeyboards)
+  }
   
   return (
     <>
-      <Grid2 container display='flex' justifyContent='start'>
+      <Grid2 container display='flex' justifyContent='start' marginLeft={10}>
         <Typography alignSelf={'center'} variant="h6" >Filtro</Typography>
-        <CustomInput onChange={props.handleInputChange} aria-label="Demo input" placeholder="Type something…" />
+        <CustomInput onChange={handleOnChange} aria-label="Demo input" placeholder="Type something…" />
       </Grid2>
 
     </>
