@@ -12,33 +12,34 @@ import {Link} from 'react-router-dom';
 
 
 interface Props {
+  CreatedAt: string,
+  DeletedAt: string, 
+  ID: number,
+  UpdatedAt: string,
   name: string,
-  URL: string, 
-  star: number,
-  author: string,
-  description: string
+  url_photo: string
 }
 
-function MediaCard(props: Props) {
+
+function CardKeyboard(props: Props) {
   return (
-    <Link to={'/customization/1'}>
+    <Link to={`/reviews/${props.ID}`}>
       <Card 
-        sx={{ maxWidth: 345, height: 345, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: 1, cursor: 'pointer'}}>
+        sx={{ maxWidth: 345, height: 245, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: 1, cursor: 'pointer'}}>
         <CardMedia
           component="img" 
           height="140"
-          image={ require('../assets/key1.png')}
+          image={ props.url_photo}
           alt="key1" />
 
         <CardContent sx={{height: 90, textOverflow: 'hidden'}}>
           <Typography gutterBottom variant="h5" component="div"> {props.name} </Typography>
-          <Typography variant="body2" color="text.secondary"  > {props.description} </Typography>
+          <Typography variant="body2" color="text.secondary"  > {''} </Typography>
         </CardContent>
         
         <CardContent>
           <Grid2 container display={'flex'} justifyContent={'space-between'}>
-            <Typography > {props.author}</Typography>
-            <Rating name='read-only' value={props.star} readOnly />
+            <Rating name='read-only' value={3} readOnly />
           </Grid2>
         </CardContent>
       </Card>
@@ -46,4 +47,4 @@ function MediaCard(props: Props) {
   );
 }
 
-export default MediaCard;
+export default CardKeyboard;

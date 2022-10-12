@@ -9,13 +9,19 @@ import {
 
 import ResponsiveAppBar from './components/Navbar'
 import './App.css';
-
+import AuthProvider from './context/authContext'
+import {useAuth} from './context/authContext'
 
 function App() {
+
+  const {user} = useAuth();
+
   return (
       <>
-        <ResponsiveAppBar />
-        <Outlet />
+        {/* <AuthProvider> */}
+          <ResponsiveAppBar />
+          <Outlet />
+        {/* </AuthProvider> */}
       </>
     );
 }

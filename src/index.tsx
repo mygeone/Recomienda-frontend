@@ -8,32 +8,53 @@ import {
   RouterProvider
 } from "react-router-dom";
 import Reviews from './routes/reviews';
+import Keyboards from './routes/keyboards';
+import SignIn from './routes/signin'
 import ResponsiveAppBar from './components/Navbar';
-import Customization from './routes/customization';
+import Customization from './routes/reviews';
+import Signup from './routes/signup';
+import AuthProvider from './context/authContext'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: 
+      <AuthProvider>
+        <App/>
+      </AuthProvider>,
     children: [
       { 
-        path: "/reviews",
-        element: <Reviews />
+        path: "/keyboards",
+        element: <Keyboards />
       },
       {
-        path: "customization/:id",
-        element: <Customization />,
+        path: "reviews/:id",
+        element: <Reviews />,
+      },
+      {
+        path: "myreviews/:id",
+        element: <Reviews />,
       },
     ]
+  },
+  {
+    path: '/signin',
+    element: <AuthProvider><SignIn /></AuthProvider>
+  },
+  {
+    path: '/signup',
+    element: <AuthProvider>< Signup /></AuthProvider>
   }
   
 ]);
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}></RouterProvider>   
+ 
+    <RouterProvider router={router}></RouterProvider>
+
   </React.StrictMode>
   
 );

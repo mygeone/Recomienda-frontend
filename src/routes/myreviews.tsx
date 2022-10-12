@@ -18,6 +18,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Grid2 from '@mui/material/Unstable_Grid2'
 import KeyboardReview from '../components/ReviewCard'
 import ReviewCard from '../components/ReviewCard'
+import UserReviewCard from '../components/UserReviewCard'
 import {useParams} from 'react-router-dom';
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -87,13 +88,14 @@ export default function Reviews() {
 
             return(
                 <Grid2 xs={6} md={3}  >
-                    <ReviewCard 
+                    <UserReviewCard 
+                        id = {item.ID}
                        user_id = {item.user_id}
                        description = {item.description}
                        Stars ={item.Stars}
                        CreatedAt={item.CreatedAt}
                        url_photo = {handleUrl()}
-                       userReview = {false}
+                       userReview = {true}
                         />
                 </Grid2>
             )

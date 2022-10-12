@@ -14,6 +14,16 @@ interface Keyboard {
   URL: string
 }
 
+interface KeyboardData {
+  CreatedAt: string,
+  DeletedAt: string, 
+  ID: number,
+  UpdatedAt: string,
+  name: string,
+  url_photo: string
+}
+
+
 const blue = {
   100: '#DAECFF',
   200: '#80BFFF',
@@ -74,7 +84,7 @@ const CustomInput = React.forwardRef(function CustomInput(
 
 interface FilterProps {
   handleInputChange: any
-  keyboardsFetched: Keyboard[]
+  keyboardsFetched: KeyboardData[]
 }
 
 export default function Filters(props: FilterProps) {

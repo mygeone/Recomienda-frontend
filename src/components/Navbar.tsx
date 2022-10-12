@@ -12,14 +12,39 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Outlet, NavLink, Link} from 'react-router-dom'
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const pages: string[] = ['reviews', 'customize'];
-const settings: string[]  = ['Profile', 'Account', 'Dashboard', 'Logout'];
+import {Outlet, NavLink, Link} from 'react-router-dom'
+import {useAuth} from '../context/authContext'
+import {Navigate} from 'react-router-dom'
+import { useTab } from '@mui/base';
+
+interface Options {
+  name: string,
+  link: string
+}
+const pages: string[] = ['keyboards'];
+const settings: Options[] = [
+  {
+    name: 'Profile',
+    link: '/'
+  },
+  {
+    name: 'Account',
+    link: '/'
+  },
+  {
+    name: 'My Reviews',
+    link: '/myreviews'
+  }
+];
 
 const ResponsiveAppBar = () => {
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const {user, login, logout} = useAuth();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -35,6 +60,13 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleCloseMenuLogout = () => {
+    setAnchorElUser(null);
+    logout();
+  };
+  
+  console.log(user);
 
   return (
     <AppBar position="static">
@@ -132,35 +164,50 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          
+          {
+          user
+            ?
+              <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting.name}  onClick={setting.name == 'Logout' ? handleCloseMenuLogout : handleCloseUserMenu}>
+                    <Link to={setting.link}>
+                      <Typography textAlign="center">{setting.name}</Typography>
+                    </Link>
+                  </MenuItem>
+                ))}
+              </Menu>
+              </Box>
+            :
+            <Link to="/signin">
+              <Typography textAlign="center">{'Login'}</Typography>
+            </Link>
+          }
+
+
+
+          
         </Toolbar>
       </Container>
     </AppBar>
