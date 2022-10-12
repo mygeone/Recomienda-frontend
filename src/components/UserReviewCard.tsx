@@ -134,7 +134,7 @@ export default function UserReviewCard(props: Props) {
         :
         < >
           <Button sx={{mr: 2 }} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={handleDelete}>
-            Delete
+            Deletea
           </Button>
           <Button variant="contained"  startIcon={<EditIcon />} onClick={handleEdit}>
             Edit
